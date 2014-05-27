@@ -224,76 +224,59 @@ class Board
 	{
 		/* Example:
 		╔══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╗
-		║●5║  ║  ║  ║○3║  ║  ║○5║  ║  ║  ║  ║●2║
+		║5●║  ║  ║  ║3○║  ║  ║5○║  ║  ║  ║  ║2●║
 		║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║
-		║                 ║●2║                 ║
+		║                 ║2●║                 ║
 		║13 14 15 16 17 18║  ║19 20 21 22 23 24║
 		║12 11 10  9  8  7║  ║ 6  5  4  3  2  1║
-		║                 ║○1║                 ║
+		║                 ║1○║                 ║
 		║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║
-		║○5║  ║  ║  ║●3║  ║  ║●5║  ║  ║  ║  ║○2║
+		║5○║  ║  ║  ║3●║  ║  ║5●║  ║  ║  ║  ║2○║
 		╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝
 		*/
 		
 		// Board ascii
 		$newline = "\n";
-		$top = '╔═╦═╦═╦═╦═╦═╦═╦═╦═╦═╦═╦═╦═╗'.$newline;
 		$border = '║';
-		$bar = $border.' '.$border;
-		$middle = $border.'           '.$border;
-		$bottom = '╚═╩═╩═╩═╩═╩═╩═╩═╩═╩═╩═╩═╩═╝';
+		$top = '╔══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╗'.$newline;
+		$bar = $border.'  '.$border;
+		$point_tops = '║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║'.$newline;
+		$middle = $border.'                 '.$border;
+		$point_ids = $border.'13 14 15 16 17 18'.$bar.'19 20 21 22 23 24'.$border.$newline.
+			$border.'12 11 10  9  8  7'.$bar.' 6  5  4  3  2  1'.$border.$newline;
+		$bottom = '╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝';
 		
 		$board = $top;
 		
 		for ($i = 13; $i <= 18; $i++)
 		{
-			$board .= $border.$this->getPointChar($this->points[$i]);
+			$board .= $border.$this->getPointNum($this->points[$i]).$this->getPointChar($this->points[$i]);
 		}
 		$board .= $bar;
 		for ($i = 19; $i <= 24; $i++)
 		{
-			$board .= $this->getPointChar($this->points[$i]).$border;
+			$board .= $this->getPointNum($this->points[$i]).$this->getPointChar($this->points[$i]).$border;
 		}
 		$board .= $newline;
 		
-		for ($i = 13; $i <= 18; $i++)
-		{
-			$board .= $border.$this->getPointNum($this->points[$i]);
-		}
-		$board .= $bar;
-		for ($i = 19; $i <= 24; $i++)
-		{
-			$board .= $this->getPointNum($this->points[$i]).$border;
-		}
-		$board .= $newline;
-
-		$board .= $middle.$this->getBarNum($this->checkers[1]).$middle.$newline;
+		$board .= $point_tops;
 		
-		$board .= $middle.$this->getBarChar($this->checkers[1]).$middle.$newline;
+		$board .= $middle.$this->getBarNum($this->checkers[1]).$this->getBarChar($this->checkers[1]).$middle.$newline;
 		
-		$board .= $middle.$this->getBarChar($this->checkers[2]).$middle.$newline;
+		$board .= $point_ids;
 		
-		$board .= $middle.$this->getBarNum($this->checkers[2]).$middle.$newline;
+		$board .= $middle.$this->getBarNum($this->checkers[2]).$this->getBarChar($this->checkers[2]).$middle.$newline;
+		
+		$board .= $point_tops;
 		
 		for ($i = 12; $i >= 7; $i--)
 		{
-			$board .= $border.$this->getPointNum($this->points[$i]);
+			$board .= $border.$this->getPointNum($this->points[$i]).$this->getPointChar($this->points[$i]);
 		}
 		$board .= $bar;
 		for ($i = 6; $i >= 1; $i--)
 		{
-			$board .= $this->getPointNum($this->points[$i]).$border;
-		}
-		$board .= $newline;
-		
-		for ($i = 12; $i >= 7; $i--)
-		{
-			$board .= $border.$this->getPointChar($this->points[$i]);
-		}
-		$board .= $bar;
-		for ($i = 6; $i >= 1; $i--)
-		{
-			$board .= $this->getPointChar($this->points[$i]).$border;
+			$board .= $this->getPointNum($this->points[$i]).$this->getPointChar($this->points[$i]).$border;
 		}
 		$board .= $newline;
 		
