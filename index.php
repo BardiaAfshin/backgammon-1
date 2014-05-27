@@ -66,7 +66,7 @@ while (true)
 
 	// Get the active player
 	$player = $game->active_player;
-	$io->output($player->checker->symbol.' '.$player->name.'\'s turn:');
+	$io->output($player->checker->symbol.' '.$player->name.'\'s Turn');
 	
 	// Take turn
 	$game->takeTurn();
