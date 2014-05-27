@@ -53,8 +53,11 @@ class Game
 			throw new \Exception('Active player does not exist.');
 		}
 		
+		// Increment key
+		$key++;
+		
 		// If incremented key exist
-		if (array_key_exists($key++, $this->players))
+		if (array_key_exists($key, $this->players))
 		{
 			// Set turn to next player
 			$this->active_player = $this->players[$key];
