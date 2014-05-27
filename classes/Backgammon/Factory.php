@@ -5,12 +5,11 @@ namespace Backgammon;
  * Backgammon factory
  */
 class Factory
-{	
+{
 	public function buildGame(Player $player1, Player $player2, $first_turn)
 	{
-		$io = $this->buildIO();
 		$board = $this->buildBoard($player1->checker, $player2->checker, $player1->clockwise);
-		return new Game($io, $board, $player1, $player2, $first_turn);
+		return new Game($board, $player1, $player2, $first_turn);
 	}
 	
 	public function buildBoard(Checker $p1_checker, Checker $p2_checker, $p1_clockwise)

@@ -6,57 +6,72 @@ namespace Backgammon;
  */
 class Game
 {
-	protected $io;
-	protected $board;
+	public $board;
 	protected $players;
-	protected $turn;
-	protected $game_over = false;
+	public $active_player;
 	
-	public function __construct(IO $io, Board $board, Player $player1, Player $player2, $first_turn)
+	/**
+	 * @param $board Board
+	 * @param $player1 Player 1
+	 * @param $player2 Player 2
+	 * @param $first_turn Player to go first
+	 */
+	public function __construct(Board $board, Player $player1, Player $player2, Player $first_turn)
 	{
-		$this->io = $io;
 		$this->board = $board;
 		$this->players[1] = $player1;
 		$this->players[2] = $player2;
-		$this->turn = $first_turn;
+		$this->active_player = $first_turn;
 	}
 	
-	protected function takeTurn()
+	/**
+	 * Takes the turn of the active player
+	 */
+	public function takeTurn()
 	{
 		// Take turn
-		if ($this->turn == 1)
-		{
-			$p1 = $this->players[1];
-			$this->io->output($p1->checker->symbol.' '.$p1->name.'\'s turn:');
-			$new_board = $p1->takeTurn($this->board);
-		}
-		else
-		{
-			$p2 = $this->players[2];
-			$this->io->output($p2->checker->symbol.' '.$p2->name.'\'s turn:');
-			$new_board = $p2->takeTurn($this->board);
-		}
+		$new_board = $this->active_player->takeTurn($this->board);
 		
 		// Update board
 		$this->board = $new_board;
-		
-		// Check if player has won
-		if (($winner = $this->checkWinner()) !== false)
-		{
-			$this->io->output('Game over.');
-			exit;
-		}
-		
-		// Toggle turn
-		$this->toggleTurn();
+
+		// Next player
+		$this->nextTurn();
 	}
 	
-	protected function toggleTurn()
+	/**
+	 * Updates the active player to the next player
+	 */
+	protected function nextTurn()
 	{
-		$this->turn = ($this->turn == 0) ? 1 : 0;
+		// Get active player array key
+		$key = array_search($this->active_player, $this->players, true);
+		
+		// If player wasn't found in array
+		if ($key === false)
+		{
+			throw new \Exception('Active player does not exist.');
+		}
+		
+		// If incremented key exist
+		if (array_key_exists($key++, $this->players))
+		{
+			// Set turn to next player
+			$this->active_player = $this->players[$key];
+		}
+		else
+		{
+			// Set key to first player in array
+			$this->active_player = reset($this->players);
+		}
     }
 	
-	protected function checkWinner()
+	/**
+	 * Checks if a player has won
+	 * 
+	 * @return boolean
+	 */
+	public function checkWinner()
 	{
 		return false;
 	}

@@ -29,31 +29,53 @@ $black_checker = $factory->buildBlackChecker();
 $white_checker = $factory->buildWhiteChecker();
 
 // Build computer player
-$computer = $factory->buildComputerPlayer($white_checker, true);
+$players[1] = $factory->buildComputerPlayer($white_checker, true);
 
 // Build human player
 //$name = ucwords($io->input('What is your name?'));
 $name = 'Lenton';
-$human = $factory->buildHumanPlayer($black_checker, false, $name);
+$players[2] = $factory->buildHumanPlayer($black_checker, false, $name);
 
 // Get first turn
 /*while (true)
 {
-	$first_turn = (int) $io->input('Which player is to go first (1 or 2)?');
-	if ($first_turn === 1 || $first_turn === 2) { break; }
+	// Get input
+	$input = (int) $io->input('Which player is to go first (1 or 2)?');
+	
+	// If input is valid
+	if (array_key_exists($input, $players))
+	{
+		// Set first turn
+		$first_turn = $players[$input];
+		break;
+	}
+	
+	// Invalid input
 	$io->error('Invalid input; you must enter 1 or 2.');
 }*/
-$first_turn = 2;
+$first_turn = $players[1];
 
 // Build backgammon game
-$game = $factory->buildGame($computer, $human, $first_turn);
+$game = $factory->buildGame($players[1], $players[2], $first_turn);
 
-// Game loop
+// Turn loop
 while (true)
 {
 	// Display board
 	$io->output($game->board->asText());
 
+	// Get the active player
+	$player = $game->active_player;
+	$io->output($player->checker->symbol.' '.$player->name.'\'s turn:');
+	
 	// Take turn
 	$game->takeTurn();
+	
+	// Check if player has won
+	if (($winner = $game->checkWinner()) !== false)
+	{
+		// Game over
+		$this->io->output('Game over.');
+		break;
+	}
 }
