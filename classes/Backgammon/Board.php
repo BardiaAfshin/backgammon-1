@@ -84,7 +84,7 @@ class Board
 		{
 			throw new \Exception('Can not have more than 4 moves.');
 		}
-
+		
 		// For each move
 		foreach ($moves as $move)
 		{
@@ -94,30 +94,9 @@ class Board
 				throw new \Exception('Each move must have 2 values.');
 			}
 			
-			// If they have a checker on the bar
-			$on_bar = $this->bar->checkerExists($checker);
+			// Validate move
+			$this->validateMove($move[0], $move[1], $checker, $clockwise);
 			
-			// Check if player is bearing off
-			$bearing_off = $this->bearingOff($checker);
-			
-			// Check that 'from position' is valid
-			if ((! array_key_exists($move[0], $this->points) && ! ($move[0] === 25 && $on_bar)) || ($bearing_off && $move[0] > 6))
-			{
-				throw new \Exception('From point is invalid.');
-			}
-
-			// Check that 'to position' is valid number
-			if ((! array_key_exists($move[1], $this->points) && $move[1] !== 0) || ($bearing_off && $move[1] > 5))
-			{
-				throw new \Exception('To point is invalid.');
-			}
-			
-			// Check player is going the right way
-			if (($clockwise && $move[0] > $move[1]) || (! $clockwise && $move[0] < $move[1]))
-			{
-				throw new \Exception('Going the wrong way.');
-			}
-
 			// Pick up checker
 			if ($move[0] === 25)
 			{
@@ -130,15 +109,113 @@ class Board
 				$this->points[$move[0]]->removeChecker($checker);
 			}
 
-			// Place down checker
+			// If move isn't off the board
 			if ($move[1] !== 0)
 			{
+				// Place down checker
 				$this->points[$move[1]]->placeChecker($checker, $this->bar);
 			}
-			
+		}
+		
+		return true;
+    }
+	
+	/**
+	 * Validates a single move - throws an exception when invalid
+	 * 
+	 * @param int $from From position
+	 * @param int $to To position
+	 * @param $checker Checker type to move
+	 * @param bool $clockwise Whether playing is going clockwise
+	 * @throws \Exception
+	 */
+	protected function validateMove($from, $to, Checker $checker, $clockwise)
+	{
+		// If they have a checker on the bar
+		$on_bar = $this->bar->checkerExists($checker);
+
+		// Check if player is bearing off
+		$bearing_off = $this->bearingOff($checker);
+
+		// Check that from position is valid
+		if (! $this->validFromPosition($from, $on_bar, $bearing_off))
+		{
+			throw new \Exception('From position is invalid.');
+		}
+
+		// Check that to position is valid number
+		if (! $this->validToPosition($to, $bearing_off))
+		{
+			throw new \Exception('To position is invalid.');
+		}
+
+		// Check player is going in the right direction
+		if (! $this->validDirection($from, $to, $clockwise))
+		{
+			throw new \Exception('Going in the wrong direction.');
+		}
+	}
+	
+	/**
+	 * Checks from position is valid
+	 * 
+	 * @param int $from From position
+	 * @param bool $on_bar Whether player has checker(s) on bar
+	 * @param bool $bearing_off Whether player is bearing off
+	 * @return bool
+	 */
+	protected function validFromPosition($from, $on_bar, $bearing_off)
+	{
+		// If from point is invalid
+		if (! array_key_exists($from, $this->points) && ($from !== 25 && $on_bar))
+		{
+			return false;
+		}
+		
+		// If bearing off and move isn't from home quarter
+		if ($bearing_off && $from > 6)
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Checks if to position is valid
+	 * 
+	 * @param int $to To position
+	 * @param bool $bearing_off Whether player is bearing off
+	 * @return bool
+	 */
+	protected function validToPosition($to, $bearing_off)
+	{
+		if ((! $bearing_off && (array_key_exists($to, $this->points) || $to === 0)
+			|| ($bearing_off && $to < 5)))
+		{
 			return true;
 		}
-    }
+		
+		return false;
+	}
+	
+	/**
+	 * Checks move is in the right direction
+	 * 
+	 * @param int $from From position
+	 * @param int $to To position
+	 * @param bool $clockwise Going clockwise around the board
+	 * @return bool
+	 */
+	protected function validDirection($from, $to, $clockwise)
+	{
+		if (($clockwise && $from < $to) || (! $clockwise && $from > $to))
+		{
+			return true;
+		}
+		
+		return false;
+	}
 	
 	/**
 	 * Returns a textual representation of the current board
@@ -146,16 +223,16 @@ class Board
 	public function asText()
 	{
 		/* Example:
-		╔═╦═╦═╦═╦═╦═╦═╦═╦═╦═╦═╦═╦═╗
-		║●║ ║ ║ ║○║ ║ ║○║ ║ ║ ║ ║●║
-		║5║ ║ ║ ║3║ ║ ║5║ ║ ║ ║ ║2║
-		║           ║2║           ║
-		║           ║●║           ║
-		║           ║○║           ║
-		║           ║1║           ║
-		║5║ ║ ║ ║3║ ║ ║5║ ║ ║ ║ ║2║
-		║○║ ║ ║ ║●║ ║ ║●║ ║ ║ ║ ║○║
-		╚═╩═╩═╩═╩═╩═╩═╩═╩═╩═╩═╩═╩═╝
+		╔══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╗
+		║●5║  ║  ║  ║○3║  ║  ║○5║  ║  ║  ║  ║●2║
+		║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║
+		║                 ║●2║                 ║
+		║13 14 15 16 17 18║  ║19 20 21 22 23 24║
+		║12 11 10  9  8  7║  ║ 6  5  4  3  2  1║
+		║                 ║○1║                 ║
+		║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║
+		║○5║  ║  ║  ║●3║  ║  ║●5║  ║  ║  ║  ║○2║
+		╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝
 		*/
 		
 		// Board ascii
