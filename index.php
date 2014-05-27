@@ -47,4 +47,21 @@ $first_turn = 2;
 
 // Build backgammon game
 $game = $factory->buildGame($computer, $human, $first_turn);
-$game->loop();
+
+// Game loop
+while (true)
+{
+	// Display board
+	$this->io->output($this->board->asText());
+
+	// Take turn
+	$this->takeTurn();
+	sleep(3);
+
+	// If a player has won
+	if (($winner = $this->checkWinner()) !== false)
+	{
+		$this->io->output('Game over.');
+		break;
+	}
+}

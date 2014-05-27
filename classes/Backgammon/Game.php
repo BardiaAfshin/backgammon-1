@@ -21,29 +21,6 @@ class Game
 		$this->turn = $first_turn;
 	}
 	
-	/**
-	 * Game loop
-	 */
-	public function loop()
-	{
-		while (true)
-		{
-			// Display board
-			$this->io->output($this->board->asText());
-
-			// Take turn
-			$this->takeTurn();
-			sleep(3);
-			
-			// If a player has won
-			if (($winner = $this->checkWinner()) !== false)
-			{
-				$this->io->output('Game over.');
-				break;
-			}
-		}
-	}
-	
 	protected function takeTurn()
 	{
 		// Take turn
