@@ -40,6 +40,13 @@ class Game
 		// Update board
 		$this->board = $new_board;
 		
+		// Check if player has won
+		if (($winner = $this->checkWinner()) !== false)
+		{
+			$this->io->output('Game over.');
+			exit;
+		}
+		
 		// Toggle turn
 		$this->toggleTurn();
 	}

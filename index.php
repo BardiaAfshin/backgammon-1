@@ -52,16 +52,8 @@ $game = $factory->buildGame($computer, $human, $first_turn);
 while (true)
 {
 	// Display board
-	$this->io->output($this->board->asText());
+	$io->output($game->board->asText());
 
 	// Take turn
-	$this->takeTurn();
-	sleep(3);
-
-	// If a player has won
-	if (($winner = $this->checkWinner()) !== false)
-	{
-		$this->io->output('Game over.');
-		break;
-	}
+	$game->takeTurn();
 }
