@@ -43,7 +43,7 @@ abstract class Position
 	public function removeChecker(Checker $checker)
 	{
 		// If checker exists
-		if (($key = $this->getCheckerKey($checker)))
+		if (($key = $this->getCheckerKey($checker)) !== false)
 		{
 			// Remove checker from position
 			unset($this->checkers[$key]);
