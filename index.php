@@ -62,7 +62,7 @@ $game = $factory->buildGame($players[1], $players[2], $first_turn);
 while (true)
 {
 	// Display board
-	$io->output($game->board->asText());
+	$io->output("\n".$game->board->asText());
 
 	// Get the active player
 	$player = $game->active_player;
