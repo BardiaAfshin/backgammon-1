@@ -71,7 +71,7 @@ class Board
 	}
 	
 	/**
-	 * Carries out moves on the board
+	 * Carries out multiple moves on the board
 	 * 
 	 * @param $moves [[#, #], [#, #]]
 	 * @param $checker The players checker
@@ -94,31 +94,45 @@ class Board
 				throw new \Exception('Each move must have 2 values.');
 			}
 			
-			// Validate move
-			$this->validateMove($move[0], $move[1], $checker, $clockwise);
-			
-			// Pick up checker
-			if ($move[0] === 25)
-			{
-				// From bar
-				$this->bar->removeChecker($checker);
-			}
-			else
-			{
-				// From point
-				$this->points[$move[0]]->removeChecker($checker);
-			}
-
-			// If move isn't off the board
-			if ($move[1] !== 0)
-			{
-				// Place down checker
-				$this->points[$move[1]]->placeChecker($checker, $this->bar);
-			}
+			// Make move
+			$this->makeMove($move[0], $move[1], $checker, $clockwise);
 		}
 		
 		return true;
     }
+	
+	/**
+	 * Makes a single move on the board
+	 * 
+	 * @param int $from From position
+	 * @param int $to To position
+	 * @param $checker Checker type to move
+	 * @param bool $clockwise Whether playing is going clockwise
+	 */
+	protected function makeMove($from, $to, Checker $checker, $clockwise)
+	{
+		// Validate move
+		$this->validateMove($from, $to, $checker, $clockwise);
+
+		// Pick up checker
+		if ($from === 25)
+		{
+			// From bar
+			$this->bar->removeChecker($checker);
+		}
+		else
+		{
+			// From point
+			$this->points[$from]->removeChecker($checker);
+		}
+
+		// If move isn't off the board
+		if ($to !== 0)
+		{
+			// Place down checker
+			$this->points[$to]->placeChecker($checker, $this->bar);
+		}
+	}
 	
 	/**
 	 * Validates a single move - throws an exception when invalid
