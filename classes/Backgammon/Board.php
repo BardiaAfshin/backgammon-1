@@ -6,9 +6,10 @@ use Backgammon\Positions\Point;
 
 class Board
 {
-	protected $bar;
-	protected $points;
+	public $bar;
+	public $points;
 	protected $checkers;
+	protected $save = null;
     
 	public function __construct(Bar $bar, array $points, array $checkers)
 	{
@@ -229,6 +230,30 @@ class Board
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Saves the current board state
+	 */
+	protected function saveState()
+	{
+		$this->save = clone $this;
+	}
+	
+	/**
+	 * Reverts the board to the last save
+	 */
+	protected function revert()
+	{
+		// If board hasn't been saved
+		if ($this->save === null)
+		{
+			throw new Exception('Board state must be saved first before reverting.');
+		}
+		
+		// Update properties
+	    $this->bar = $this->save->bar;
+	    $this->points = $this->save->points;
 	}
 	
 	/**
