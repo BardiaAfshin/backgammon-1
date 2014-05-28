@@ -226,10 +226,10 @@ class Board
 		╔══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╗
 		║5●║  ║  ║  ║3○║  ║  ║5○║  ║  ║  ║  ║2●║
 		║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║
-		║                 ║2●║                 ║
 		║13 14 15 16 17 18║  ║19 20 21 22 23 24║
-		║12 11 10  9  8  7║  ║ 6  5  4  3  2  1║
+		║                 ║2●║                 ║
 		║                 ║1○║                 ║
+		║12 11 10  9  8  7║  ║ 6  5  4  3  2  1║
 		║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║
 		║5○║  ║  ║  ║3●║  ║  ║5●║  ║  ║  ║  ║2○║
 		╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝
@@ -242,8 +242,6 @@ class Board
 		$bar = $border.'  '.$border;
 		$point_tops = '║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║  ║'.$newline;
 		$middle = $border.'                 '.$border;
-		$point_ids = $border.'13 14 15 16 17 18'.$bar.'19 20 21 22 23 24'.$border.$newline.
-			$border.'12 11 10  9  8  7'.$bar.' 6  5  4  3  2  1'.$border.$newline;
 		$bottom = '╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝';
 		
 		$board = $top;
@@ -261,11 +259,13 @@ class Board
 		
 		$board .= $point_tops;
 		
+		$board .= $border.'13 14 15 16 17 18'.$bar.'19 20 21 22 23 24'.$border.$newline;
+		
 		$board .= $middle.$this->getBarNum($this->checkers[1]).$this->getBarChar($this->checkers[1]).$middle.$newline;
 		
-		$board .= $point_ids;
-		
 		$board .= $middle.$this->getBarNum($this->checkers[2]).$this->getBarChar($this->checkers[2]).$middle.$newline;
+		
+		$board .= $border.'12 11 10  9  8  7'.$bar.' 6  5  4  3  2  1'.$border.$newline;
 		
 		$board .= $point_tops;
 		
