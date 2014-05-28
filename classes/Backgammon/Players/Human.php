@@ -18,25 +18,31 @@ class Human extends Player
 	{
 		while (true)
 		{
-			// Get moves
-			$moves = [];
-			
 			// Get input
-			$input = trim(preg_replace("/ +/", ' ', $this->io->input('Moves (from-to from-to):')));
-
-			// Expload moves
-			$exploaded_moves = explode(' ', $input);
+			$input = $this->io->input('Moves (from-to from-to):');
 			
-			// For each moves
-			foreach ($exploaded_moves as $move)
+			// Expload moves
+			$exploded_moves = preg_split("/\s/", $input, null, PREG_SPLIT_NO_EMPTY);
+			
+			// If no moves were inputted
+			if (empty($exploded_moves))
+			{
+				$this->io->error('You must input at least 1 move.');
+				continue;
+			}
+			
+			// For each inputted moves
+			$moves = [];
+			foreach ($exploded_moves as $move)
 			{
 				// Exploded move
-				$exploded_move = explode('-', $move);
+				$exploded_move = preg_split("/-/", $move, null, PREG_SPLIT_NO_EMPTY);
 
 				// Check that move has two values
 				if (count($exploded_move) !== 2)
 				{
 					$this->io->error('Each move must have 2 values.');
+					continue 2;
 				}
 				
 				// Add move to array
