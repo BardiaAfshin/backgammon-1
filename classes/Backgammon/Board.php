@@ -263,8 +263,8 @@ class Board
 		}
 		
 		// Update properties
-	    $this->bar = $this->save->bar;
-	    $this->points = $this->save->points;
+		$this->bar = $this->save->bar;
+		$this->points = $this->save->points;
 	}
 	
 	/**
