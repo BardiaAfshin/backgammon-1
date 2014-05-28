@@ -1,5 +1,7 @@
 <?php
-namespace Backgammon;
+namespace Backgammon\Business;
+
+use Backgammon\Application\IO;
 
 abstract class Player
 {

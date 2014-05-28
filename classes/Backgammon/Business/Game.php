@@ -1,5 +1,5 @@
 <?php
-namespace Backgammon;
+namespace Backgammon\Business;
 
 /**
  * Backgammon game

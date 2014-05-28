@@ -1,10 +1,10 @@
 <?php
-namespace Backgammon\Players;
+namespace Backgammon\Business\Players;
 
-use Backgammon\Player;
-use Backgammon\IO;
-use Backgammon\Checker;
-use Backgammon\Board;
+use Backgammon\Business\Player;
+use Backgammon\Application\IO;
+use Backgammon\Business\Checker;
+use Backgammon\Business\Board;
 
 class Human extends Player
 {

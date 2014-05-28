@@ -1,7 +1,7 @@
 <?php
-namespace Backgammon\Checkers;
+namespace Backgammon\Business\Checkers;
 
-use Backgammon\Checker;
+use Backgammon\Business\Checker;
 
 class White extends Checker
 {

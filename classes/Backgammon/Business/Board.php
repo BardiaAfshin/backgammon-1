@@ -1,8 +1,8 @@
 <?php
-namespace Backgammon;
+namespace Backgammon\Business;
 
-use Backgammon\Positions\Bar;
-use Backgammon\Positions\Point;
+use Backgammon\Business\Positions\Bar;
+use Backgammon\Business\Positions\Point;
 
 class Board
 {

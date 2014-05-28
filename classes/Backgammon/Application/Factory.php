@@ -1,5 +1,14 @@
 <?php
-namespace Backgammon;
+namespace Backgammon\Application;
+
+use Backgammon\Business\Board;
+use Backgammon\Business\Checker;
+use Backgammon\Business\Checkers;
+use Backgammon\Business\Game;
+use Backgammon\Business\Player;
+use Backgammon\Business\Players;
+use Backgammon\Business\Positions;
+use Backgammon\Business\Voices;
 
 /**
  * Backgammon factory

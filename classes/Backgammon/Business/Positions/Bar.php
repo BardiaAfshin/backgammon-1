@@ -1,7 +1,7 @@
 <?php
-namespace Backgammon\Positions;
+namespace Backgammon\Business\Positions;
 
-use Backgammon\Position;
+use Backgammon\Business\Position;
 
 /**
  * Bar in the middle of board

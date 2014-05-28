@@ -19,7 +19,7 @@ function autoload($class_name)
 spl_autoload_register('autoload');
 
 // Load factory
-$factory = new Backgammon\Factory;
+$factory = new Backgammon\Application\Factory;
 
 // Build IO
 $io = $factory->buildIO();

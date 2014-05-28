@@ -1,8 +1,8 @@
 <?php
-namespace Backgammon\Positions;
+namespace Backgammon\Business\Positions;
 
-use Backgammon\Position;
-use Backgammon\Checker;
+use Backgammon\Business\Position;
+use Backgammon\Business\Checker;
 
 /**
  * Point on the board

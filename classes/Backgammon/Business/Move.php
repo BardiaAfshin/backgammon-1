@@ -1,5 +1,5 @@
 <?php
-namespace Backgammon;
+namespace Backgammon\Business;
 
 /**
  * Represents a single move on the board

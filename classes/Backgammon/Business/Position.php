@@ -1,5 +1,5 @@
 <?php
-namespace Backgammon;
+namespace Backgammon\Business;
 
 /**
  * Position on the board
