@@ -7,15 +7,15 @@ use Backgammon\Positions\Point;
 class Board
 {
 	protected $bar;
-    protected $points;
+	protected $points;
 	protected $checkers;
     
-    public function __construct(Bar $bar, array $points, array $checkers)
+	public function __construct(Bar $bar, array $points, array $checkers)
 	{
 		$this->bar = $bar;
 		$this->points = $points;
 		$this->checkers = $checkers;
-    }
+	}
     
 	public function __clone()
 	{
@@ -33,7 +33,7 @@ class Board
 	 * @param $checker Checker to look for
 	 * @return array Point keys
 	 */
-    protected function getPointKeysWithChecker(Checker $checker)
+	protected function getPointKeysWithChecker(Checker $checker)
 	{
 		$point_keys = [];
 		
@@ -49,7 +49,7 @@ class Board
 		}
 		
 		return $point_keys;
-    }
+	}
 	
 	/**
 	 * Check if a player is bearing off
@@ -99,7 +99,7 @@ class Board
 		}
 		
 		return true;
-    }
+	}
 	
 	/**
 	 * Makes a single move on the board
@@ -297,7 +297,7 @@ class Board
 		$board .= $bottom.$newline;
 		
 		return $board;
-    }
+	}
 	
 	/**
 	 * Gets a character representation of a checker

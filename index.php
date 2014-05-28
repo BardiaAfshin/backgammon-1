@@ -5,7 +5,7 @@
 function autoload($class_name)
 {
 	// Get path
-    $path = 'classes/'.str_replace('\\', '/', $class_name).'.php';
+	$path = 'classes/'.str_replace('\\', '/', $class_name).'.php';
 
 	// Check file exists
 	if (! is_readable($path))

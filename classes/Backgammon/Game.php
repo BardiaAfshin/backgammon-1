@@ -67,7 +67,7 @@ class Game
 			// Set key to first player in array
 			$this->active_player = reset($this->players);
 		}
-    }
+	}
 	
 	/**
 	 * Checks if a player has won
