@@ -20,6 +20,7 @@ abstract class Voice
 	 * Says a textual message
 	 * 
 	 * @param string $text
+	 * @return bool
 	 */
 	public function say($text)
 	{
@@ -32,12 +33,20 @@ abstract class Voice
 			// Download file
 			$data = $this->downloadFile($this->getUrl($text), $path);
 			
+			// If download failed
+			if ($data === false)
+			{
+				return false;
+			}
+			
 			// Save file
 			$this->saveFile($path, $data);
 		}
 		
 		// Play file
 		$this->sound->play($path);
+		
+		return true;
 	}
 	
 	/**
@@ -89,8 +98,6 @@ abstract class Voice
 			return $data;
 		}
 		
-		// Failed
-		self::error("Failed to download speech.");
 		return false;
 	}
 	
