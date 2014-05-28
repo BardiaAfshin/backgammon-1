@@ -33,6 +33,12 @@ class Human extends Player
 				// Exploded move
 				$exploded_move = explode('-', $move);
 
+				// Check that move has two values
+				if (count($exploded_move) !== 2)
+				{
+					$this->io->error('Each move must have 2 values.');
+				}
+				
 				// Add move to array
 				$moves[] = [
 					0 => (int) $exploded_move[0],

@@ -94,12 +94,6 @@ class Board
 			// For each move
 			foreach ($moves as $move)
 			{
-				// Check that move has two values
-				if (count($move) !== 2)
-				{
-					throw new \Exception('Each move must have 2 values.');
-				}
-
 				// Make move
 				$this->makeMove($move[0], $move[1], $checker, $clockwise);
 			}
