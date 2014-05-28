@@ -19,5 +19,5 @@ abstract class Player
 		$this->clockwise = $clockwise;
 	}
 	
-	abstract function takeTurn($board);
+	abstract function takeTurn(Board $board);
 }

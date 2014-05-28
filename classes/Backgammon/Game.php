@@ -30,10 +30,7 @@ class Game
 	public function takeTurn()
 	{
 		// Take turn
-		$new_board = $this->active_player->takeTurn($this->board);
-		
-		// Update board
-		$this->board = $new_board;
+		$this->active_player->takeTurn($this->board);
 
 		// Next player
 		$this->nextTurn();

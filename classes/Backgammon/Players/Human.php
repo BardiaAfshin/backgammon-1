@@ -4,6 +4,7 @@ namespace Backgammon\Players;
 use Backgammon\Player;
 use Backgammon\IO;
 use Backgammon\Checker;
+use Backgammon\Board;
 
 class Human extends Player
 {
@@ -13,7 +14,7 @@ class Human extends Player
 		$this->name = $name;
 	}
 	
-	public function takeTurn($board)
+	public function takeTurn(Board $board)
 	{
 		while (true)
 		{
@@ -39,13 +40,10 @@ class Human extends Player
 				];
 			}
 			
-			// Clone board
-			$new_board = clone $board;
-			
 			try
 			{
 				// Make moves
-				$new_board->makeMoves($moves, $this->checker, $this->clockwise);
+				$board->makeMoves($moves, $this->checker, $this->clockwise);
 			}
 			catch (\Exception $e)
 			{
@@ -53,8 +51,8 @@ class Human extends Player
 				continue;
 			}
 			
-			// Return new board
-			return $new_board;
+			// Success
+			break;
 		}
 	}
 }

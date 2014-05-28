@@ -86,20 +86,31 @@ class Board
 			throw new \Exception('Can not have more than 4 moves.');
 		}
 		
-		// For each move
-		foreach ($moves as $move)
-		{
-			// Check that move has two values
-			if (count($move) !== 2)
-			{
-				throw new \Exception('Each move must have 2 values.');
-			}
-			
-			// Make move
-			$this->makeMove($move[0], $move[1], $checker, $clockwise);
-		}
+		// Save current state of board
+		$this->saveState();
 		
-		return true;
+		try
+		{
+			// For each move
+			foreach ($moves as $move)
+			{
+				// Check that move has two values
+				if (count($move) !== 2)
+				{
+					throw new \Exception('Each move must have 2 values.');
+				}
+
+				// Make move
+				$this->makeMove($move[0], $move[1], $checker, $clockwise);
+			}
+		}
+		catch (\Exception $e)
+		{
+			// Revert board to original state
+			$this->revert();
+			
+			throw $e;
+		}
 	}
 	
 	/**

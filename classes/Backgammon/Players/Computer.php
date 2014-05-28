@@ -5,6 +5,7 @@ use Backgammon\Player;
 use Backgammon\IO;
 use Backgammon\Checker;
 use Backgammon\Voice;
+use Backgammon\Board;
 
 class Computer extends Player
 {
@@ -17,7 +18,7 @@ class Computer extends Player
 		$this->voice = $voice;
 	}
 	
-	public function takeTurn($board)
+	public function takeTurn(Board $board)
 	{
 		$this->io->output('SKIP');
 		return $board;
