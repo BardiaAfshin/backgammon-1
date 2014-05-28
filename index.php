@@ -74,8 +74,10 @@ while (true)
 	// Check if player has won
 	if (($winner = $game->checkWinner()) !== false)
 	{
-		// Game over
-		$this->io->output('Game over.');
+		// End turn loop
 		break;
 	}
 }
+
+// Game over
+$io->output('Game over.');
