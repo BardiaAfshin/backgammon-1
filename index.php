@@ -1,7 +1,7 @@
 #!/usr/bin/php
 
 <?php
-// Autoload function
+// Register autoload function
 function autoload($class_name)
 {
 	// Get path
@@ -17,9 +17,7 @@ function autoload($class_name)
 	require_once $path;
 }
 
-// Register autoload function
 spl_autoload_register('autoload');
 
-// Run application class
-$application = new Backgammon\Core\Application;
-$application->main();
+// Build and run application
+(new Backgammon\Core\Factory)->buildApplication()->execute();

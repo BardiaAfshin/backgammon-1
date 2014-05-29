@@ -16,6 +16,12 @@ use Backgammon\Business\Voices;
  */
 class Factory
 {
+	public function buildApplication()
+	{
+		$io = $this->buildIO();
+		return new Application($this, $io);
+	}
+	
 	public function buildGame(Player $player1, Player $player2, $first_turn)
 	{
 		$board = $this->buildBoard($player1->checker, $player2->checker, $player1->clockwise);
