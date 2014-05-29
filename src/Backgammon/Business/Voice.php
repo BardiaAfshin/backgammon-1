@@ -1,7 +1,7 @@
 <?php
 namespace Backgammon\Business;
 
-use Backgammon\Application\Sound;
+use Backgammon\Core\Sound;
 
 /**
  * Base class of an artificial voice

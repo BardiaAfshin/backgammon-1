@@ -1,5 +1,5 @@
 <?php
-namespace Backgammon\Application;
+namespace Backgammon\Core;
 
 use Backgammon\Business\Board;
 use Backgammon\Business\Checker;

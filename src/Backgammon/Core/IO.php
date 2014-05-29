@@ -1,5 +1,5 @@
 <?php
-namespace Backgammon\Application;
+namespace Backgammon\Core;
 
 /**
  * Input/Output

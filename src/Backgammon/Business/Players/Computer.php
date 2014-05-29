@@ -2,7 +2,7 @@
 namespace Backgammon\Business\Players;
 
 use Backgammon\Business\Player;
-use Backgammon\Application\IO;
+use Backgammon\Core\IO;
 use Backgammon\Business\Checker;
 use Backgammon\Business\Voice;
 use Backgammon\Business\Board;

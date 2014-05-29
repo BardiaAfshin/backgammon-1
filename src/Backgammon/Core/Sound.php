@@ -1,5 +1,5 @@
 <?php
-namespace Backgammon\Application;
+namespace Backgammon\Core;
 
 /**
  * Sound functionality using mpg123

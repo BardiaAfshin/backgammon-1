@@ -5,7 +5,7 @@
 function autoload($class_name)
 {
 	// Get path
-	$path = 'classes/'.str_replace('\\', '/', $class_name).'.php';
+	$path = 'src/'.str_replace('\\', '/', $class_name).'.php';
 
 	// Check file exists
 	if (! is_readable($path))
@@ -16,10 +16,12 @@ function autoload($class_name)
 	// Include class
 	require_once $path;
 }
+
+// Register autoload function
 spl_autoload_register('autoload');
 
 // Load factory
-$factory = new Backgammon\Application\Factory;
+$factory = new Backgammon\Core\Factory;
 
 // Build IO
 $io = $factory->buildIO();
