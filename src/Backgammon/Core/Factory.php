@@ -82,17 +82,14 @@ class Factory
 		return new Checkers\White;
 	}
 	
-	public function buildHumanPlayer($checker, $clockwise, $name)
+	public function buildHumanPlayer($name, $checker, $clockwise)
 	{
-		$io = $this->buildIO();
-		return new Players\Human($io, $checker, $clockwise, $name);
+		return new Players\Human($name, $checker, $clockwise);
 	}
 	
-	public function buildComputerPlayer($checker, $clockwise)
+	public function buildComputerPlayer($name, $checker, $clockwise)
 	{
-		$io = $this->buildIO();
-		$voice = $this->buildUKEnglishMaleVoice();
-		return new Players\Computer($io, $checker, $clockwise, $voice);
+		return new Players\Computer($name, $checker, $clockwise);
 	}
 	
 	public function buildIO()

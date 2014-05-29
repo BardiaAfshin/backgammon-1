@@ -25,21 +25,9 @@ class Game
 	}
 	
 	/**
-	 * Takes the turn of the active player
-	 */
-	public function takeTurn()
-	{
-		// Take turn
-		$this->active_player->takeTurn($this->board);
-
-		// Next player
-		$this->nextTurn();
-	}
-	
-	/**
 	 * Updates the active player to the next player
 	 */
-	protected function nextTurn()
+	public function nextTurn()
 	{
 		// Get active player array key
 		$key = array_search($this->active_player, $this->players, true);

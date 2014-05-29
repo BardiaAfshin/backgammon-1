@@ -2,28 +2,15 @@
 namespace Backgammon\Business\Players;
 
 use Backgammon\Business\Player;
-use Backgammon\Core\IO;
-use Backgammon\Business\Checker;
-use Backgammon\Business\Voice;
-use Backgammon\Business\Board;
 
 class Computer extends Player
 {
-	public $name = 'Computer';
-	protected $voice;
-	
-	public function __construct(IO $io, Checker $checker, $clockwise, Voice $voice)
-	{
-		parent::__construct($io, $checker, $clockwise);
-		$this->voice = $voice;
-	}
-	
-	public function takeTurn(Board $board)
+	/*public function takeTurn(Board $board)
 	{
 		$this->io->output('SKIP');
 		return $board;
 		
-		/*$this->think($board, null);
+		$this->think($board, null);
 		
 		core::say("Roll the dice for me please.");
 		sleep(2);
@@ -69,10 +56,10 @@ class Computer extends Player
 
 			//Think
 			return $this->think($board, $dice);
-		}*/
+		}
 	}
 	
-	/*private function think($board, $dice)
+	private function think($board, $dice)
 	{
 		$dice = [5, 3];
 		
