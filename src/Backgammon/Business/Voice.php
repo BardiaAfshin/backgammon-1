@@ -1,19 +1,19 @@
 <?php
 namespace Backgammon\Business;
 
-use Backgammon\Core\Sound;
+use Backgammon\Core\SoundPlayer;
 
 /**
  * Base class of an artificial voice
  */
 abstract class Voice
 {
-	protected $sound;
+	protected $sound_player;
 	protected $voice;
 	
-	public function __construct(Sound $sound)
+	public function __construct(SoundPlayer $sound_player)
 	{
-		$this->sound = $sound;
+		$this->sound_player = $sound_player;
 	}
 	
 	/**
@@ -44,7 +44,7 @@ abstract class Voice
 		}
 		
 		// Play file
-		$this->sound->play($path);
+		$this->sound_player->play($path);
 		
 		return true;
 	}

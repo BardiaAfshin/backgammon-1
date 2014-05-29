@@ -8,6 +8,7 @@ use Backgammon\Business\Game;
 use Backgammon\Business\Player;
 use Backgammon\Business\Players;
 use Backgammon\Business\Positions;
+use Backgammon\Core\SoundPlayers;
 use Backgammon\Business\Voices;
 
 /**
@@ -99,14 +100,14 @@ class Factory
 		return new IO;
 	}
 
-	public function buildSound()
+	public function buildMPG123()
 	{
-		return new Sound;
+		return new SoundPlayers\MPG123;
 	}
 	
 	public function buildUKEnglishMaleVoice()
 	{
-		$sound = $this->buildSound();
-		return new Voices\UKEnglishMale($sound);
+		$sound_player = $this->buildMPG123();
+		return new Voices\UKEnglishMale($sound_player);
 	}
 }
