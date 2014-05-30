@@ -222,7 +222,6 @@ class Application
 	 */
 	protected function manuallySetDice(array $dice)
 	{
-		sleep(2);
 		$this->voice->say($this->roll_speech[array_rand($this->roll_speech)]);
 		
 		while (true)
