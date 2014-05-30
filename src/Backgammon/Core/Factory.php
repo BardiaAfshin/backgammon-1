@@ -19,7 +19,8 @@ class Factory
 	public function buildApplication()
 	{
 		$io = $this->buildIO();
-		return new Application($this, $io);
+		$voice = $this->buildUKEnglishMaleVoice();
+		return new Application($this, $io, $voice);
 	}
 	
 	public function buildGame(Player $player1, Player $player2, $first_turn)

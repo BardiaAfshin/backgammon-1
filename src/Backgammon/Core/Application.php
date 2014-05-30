@@ -1,6 +1,7 @@
 <?php
 namespace Backgammon\Core;
 
+use Backgammon\Business\Voice;
 use Backgammon\Business\Game;
 use Backgammon\Business\Player;
 use Backgammon\Business\Board;
@@ -13,13 +14,13 @@ class Application
 {
 	protected $factory;
 	protected $io;
-	
 	protected $namespace = 'Backgammon\\Business\\Players\\';
 	
-	public function __construct(Factory $factory, IO $io)
+	public function __construct(Factory $factory, IO $io, Voice $voice)
 	{
 		$this->factory = $factory;
 		$this->io = $io;
+		$this->voice = $voice;
 	}
 	
 	/**
@@ -125,7 +126,7 @@ class Application
 					break;
 				// If player is computer
 				case $this->namespace.'Computer':
-					$moves = $this->computergetMoves($player);
+					$moves = $this->computerGetMoves($player, $board);
 					break;
 				default:
 					throw new \Exception('Unsupported player type.');
@@ -191,10 +192,72 @@ class Application
 		}
 	}
 	
-	protected function computerGetMoves(Computer $player)
+	protected function computerGetMoves(Computer $player, Board $board)
 	{
-		$this->io->output('SKIP');
+		// Get computer's dice role
+		//$dice = $this->getDiceRoll();
+		$dice = [5, 3];
 		
-		return [];
+		return $player->think($board, $dice);
+	}
+	
+	/**
+	 * Asks user for the dice roll
+	 */
+	protected function getDiceRoll()
+	{
+		$this->voice->say('Roll the dice for me please.');
+		
+		sleep(2);
+		
+		while (true)
+		{
+			$say_dice = [
+				"What dice roll did I get?",
+				"What's my dice roll?",
+				"Is my roll any good?"
+			];
+			$this->voice->say($say_dice[array_rand($say_dice)]);
+			
+			// Get input
+			$input = $this->io->input('Dice roll:');
+			
+			// Expload moves
+			$exploded_dice = preg_split("/\s/", $input, null, PREG_SPLIT_NO_EMPTY);
+			
+			// Check that two values where inputted
+			if (count($exploded_dice) !== 2)
+			{
+				$this->io->error('You did not specify the correct amount of dice rolls.');
+				continue;
+			}
+			
+			$dice = [];
+			foreach ($exploded_dice as $die)
+			{
+				(int) $die;
+				
+				// Check if dice values are valid
+				$dice_sides = [1, 2, 3, 4, 5, 6];
+				if (! in_array($die, $dice_sides, true))
+				{
+					$this->io->error('You specified an incorrect dice roll.');
+					continue 2;
+				}
+				
+				// Add die to array
+				$dice[] = $dice;
+			}
+
+			// Check if rolled a double
+			if($dice[0] == $dice[1])
+			{
+				// Duplicate dice
+				$dice[2] = $dice[0];
+				$dice[3] = $dice[0];
+			}
+			
+			return $dice;
+		}
 	}
 }

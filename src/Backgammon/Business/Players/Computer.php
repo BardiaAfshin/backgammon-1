@@ -2,66 +2,13 @@
 namespace Backgammon\Business\Players;
 
 use Backgammon\Business\Player;
+use Backgammon\Business\Board;
 
 class Computer extends Player
 {
-	/*public function takeTurn(Board $board)
+	public function think(Board $board, array $dice)
 	{
-		$this->io->output('SKIP');
-		return $board;
-		
-		$this->think($board, null);
-		
-		core::say("Roll the dice for me please.");
-		sleep(2);
-		while(true)
-		{
-			//Get computer's dice roll
-			echo "Dice Roll: ";
-			$say_dice = [
-				"What dice roll did I get?",
-				"What's my dice roll?",
-				"Is my roll any good?"
-			];
-			$this->voice->say($say_dice[array_rand($say_dice)]);
-			$input = core::get_input();
-
-			//Filter input
-			$filtered_input = trim(preg_replace("/ +/", ' ', $input));
-
-			//Explode dice rolls
-			$dice = explode(' ', $filtered_input);
-
-			//Check that there's two dice
-			if(count($dice) !== 2)
-			{
-				core::error("You didn't specify the correct amount of dice rolls.");
-				continue;
-			}
-
-			//Check if dice values are valid
-			$dice_sides = [1, 2, 3, 4, 5, 6];
-			if(!in_array($dice[0], $dice_sides) || !in_array($dice[1], $dice_sides))
-			{
-				core::error("You specified an incorrect dice roll.");
-				continue;
-			}
-
-			//Check if rolled a double
-			if($dice[0] == $dice[1])
-			{
-				$dice[2] = $dice[0];
-				$dice[3] = $dice[0];
-			}
-
-			//Think
-			return $this->think($board, $dice);
-		}
-	}
-	
-	private function think($board, $dice)
-	{
-		$dice = [5, 3];
+		return [];
 		
 		$combinations = [[['move' => [0, 0], 'board' => $board]]];
 		
@@ -122,8 +69,8 @@ class Computer extends Player
 		return $board;
 	}
 	
-	public function analyseBoard(Board $board)
+	protected function analyseBoard(Board $board)
 	{
 		return false;
-	}*/
+	}
 }
