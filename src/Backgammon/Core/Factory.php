@@ -5,6 +5,7 @@ use Backgammon\Business\Board;
 use Backgammon\Business\Checker;
 use Backgammon\Business\Checkers;
 use Backgammon\Business\Game;
+use Backgammon\Business\Move;
 use Backgammon\Business\Player;
 use Backgammon\Business\Players;
 use Backgammon\Business\Positions;
@@ -77,6 +78,11 @@ class Factory
 	public function buildPoint()
 	{
 		return new Positions\Point;
+	}
+	
+	public function buildMove($from, $to)
+	{
+		return new Move($from, $to);
 	}
 	
 	public function buildBlackChecker()

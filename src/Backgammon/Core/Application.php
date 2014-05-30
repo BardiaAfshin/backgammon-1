@@ -181,11 +181,10 @@ class Application
 					continue 2;
 				}
 
-				// Add move to array
-				$moves[] = [
-					0 => (int) $exploded_move[0],
-					1 => (int) $exploded_move[1],
-				];
+				// Add new move object to array
+				$from = (int) $exploded_move[0];
+				$to = (int) $exploded_move[1];
+				$moves[] = $this->factory->buildMove($from, $to);
 			}
 			
 			return $moves;

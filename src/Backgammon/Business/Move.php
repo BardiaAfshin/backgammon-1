@@ -6,8 +6,8 @@ namespace Backgammon\Business;
  */
 class Move
 {
-	protected $from;
-	protected $to;
+	public $from;
+	public $to;
 	
 	/**
 	 * @param int $from Position ID
@@ -17,13 +17,5 @@ class Move
 	{
 		$this->from = $from;
 		$this->to = $to;
-	}
-	
-	/**
-	 * Return move as array
-	 */
-	public function asArray()
-	{
-		return [$this->from, $this->to];
 	}
 }

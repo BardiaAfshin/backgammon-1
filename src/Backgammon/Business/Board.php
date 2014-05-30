@@ -74,7 +74,7 @@ class Board
 	/**
 	 * Carries out multiple moves on the board
 	 * 
-	 * @param $moves [[#, #], [#, #]]
+	 * @param $moves Array of move objects
 	 * @param $checker The players checker
 	 * @param bool $clockwise If the player is going clockwise around the board
 	 */
@@ -95,7 +95,7 @@ class Board
 			foreach ($moves as $move)
 			{
 				// Make move
-				$this->makeMove($move[0], $move[1], $checker, $clockwise);
+				$this->makeMove($move, $checker, $clockwise);
 			}
 		}
 		catch (\Exception $e)
@@ -115,13 +115,13 @@ class Board
 	 * @param $checker Checker type to move
 	 * @param bool $clockwise Whether playing is going clockwise
 	 */
-	protected function makeMove($from, $to, Checker $checker, $clockwise)
+	protected function makeMove(Move $move, Checker $checker, $clockwise)
 	{
 		// Validate move
-		$this->validateMove($from, $to, $checker, $clockwise);
+		$this->validateMove($move, $checker, $clockwise);
 
 		// Pick up checker
-		if ($from === 25)
+		if ($move->from === 25)
 		{
 			// From bar
 			$this->bar->removeChecker($checker);
@@ -129,14 +129,14 @@ class Board
 		else
 		{
 			// From point
-			$this->points[$from]->removeChecker($checker);
+			$this->points[$move->from]->removeChecker($checker);
 		}
 
 		// If move isn't off the board
-		if ($to !== 0)
+		if ($move->to !== 0)
 		{
 			// Place down checker
-			$this->points[$to]->placeChecker($checker, $this->bar);
+			$this->points[$move->to]->placeChecker($checker, $this->bar);
 		}
 	}
 	
@@ -149,7 +149,7 @@ class Board
 	 * @param bool $clockwise Whether playing is going clockwise
 	 * @throws \Exception
 	 */
-	protected function validateMove($from, $to, Checker $checker, $clockwise)
+	protected function validateMove(Move $move, Checker $checker, $clockwise)
 	{
 		// If they have a checker on the bar
 		$on_bar = $this->bar->checkerExists($checker);
@@ -158,19 +158,19 @@ class Board
 		$bearing_off = $this->bearingOff($checker);
 
 		// Check that from position is valid
-		if (! $this->validFromPosition($from, $on_bar, $bearing_off))
+		if (! $this->validFromPosition($move->from, $on_bar, $bearing_off))
 		{
 			throw new \Exception('From position is invalid.');
 		}
 
 		// Check that to position is valid number
-		if (! $this->validToPosition($to, $bearing_off))
+		if (! $this->validToPosition($move->to, $bearing_off))
 		{
 			throw new \Exception('To position is invalid.');
 		}
 
 		// Check player is going in the right direction
-		if (! $this->validDirection($from, $to, $clockwise))
+		if (! $this->validDirection($move->from, $move->to, $clockwise))
 		{
 			throw new \Exception('Going in the wrong direction.');
 		}
