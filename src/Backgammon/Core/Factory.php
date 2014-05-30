@@ -4,6 +4,7 @@ namespace Backgammon\Core;
 use Backgammon\Business\Board;
 use Backgammon\Business\Checker;
 use Backgammon\Business\Checkers;
+use Backgammon\Business\Die_;
 use Backgammon\Business\Game;
 use Backgammon\Business\Move;
 use Backgammon\Business\Player;
@@ -26,8 +27,14 @@ class Factory
 	
 	public function buildGame(Player $player1, Player $player2, $first_turn)
 	{
+		// Build board
 		$board = $this->buildBoard($player1->checker, $player2->checker, $player1->clockwise);
-		return new Game($board, $player1, $player2, $first_turn);
+		
+		// Build dice
+		$dice = [$this->buildDie(), $this->buildDie()];
+		
+		// Build game
+		return new Game($board, $dice, $player1, $player2, $first_turn);
 	}
 	
 	public function buildBoard(Checker $p1_checker, Checker $p2_checker, $p1_clockwise)
@@ -66,7 +73,7 @@ class Factory
 		for ($i = 0; $i < 3; $i++) { $points[8]->placeChecker($anticlockwise_checker); }
 		for ($i = 0; $i < 5; $i++) { $points[13]->placeChecker($anticlockwise_checker); }
 		for ($i = 0; $i < 2; $i++) { $points[24]->placeChecker($anticlockwise_checker); }
-
+		
 		return new Board($bar, $points, $checkers);
 	}
 	
@@ -78,6 +85,11 @@ class Factory
 	public function buildPoint()
 	{
 		return new Positions\Point;
+	}
+	
+	public function buildDie()
+	{
+		return new Die_([1, 2, 3, 4, 5, 6]);
 	}
 	
 	public function buildMove($from, $to)

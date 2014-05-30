@@ -7,21 +7,35 @@ namespace Backgammon\Business;
 class Game
 {
 	public $board;
+	public $dice;
 	protected $players;
 	public $active_player;
 	
 	/**
 	 * @param $board Board
+	 * @param $dice Array of dice
 	 * @param $player1 Player 1
 	 * @param $player2 Player 2
 	 * @param $first_turn Player to go first
 	 */
-	public function __construct(Board $board, Player $player1, Player $player2, Player $first_turn)
+	public function __construct(Board $board, array $dice, Player $player1, Player $player2, Player $first_turn)
 	{
 		$this->board = $board;
+		$this->dice = $dice;
 		$this->players[1] = $player1;
 		$this->players[2] = $player2;
 		$this->active_player = $first_turn;
+	}
+	
+	/**
+	 * Rolls all of the dice
+	 */
+	public function rollDice()
+	{
+		foreach ($this->dice as $die)
+		{
+			$die->roll();
+		}
 	}
 	
 	/**

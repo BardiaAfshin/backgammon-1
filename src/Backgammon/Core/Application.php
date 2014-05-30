@@ -15,6 +15,19 @@ class Application
 	protected $factory;
 	protected $io;
 	protected $namespace = 'Backgammon\\Business\\Players\\';
+	protected $roll_speech = [
+		'Roll the dice for me please.',
+		'What dice roll did I get?',
+		'What\'s my dice roll?',
+		'Is my roll any good?',
+		'Come on double 6.',
+		'Roll a good one for me.',
+		'Roll them dice.',
+		'Roll my dice and make it a good one.',
+		'You know the drill.',
+		'Be a dear and roll my dice for me.',
+		'Roll em good.',
+	];
 	
 	public function __construct(Factory $factory, IO $io, Voice $voice)
 	{
@@ -90,13 +103,16 @@ class Application
 		{
 			// Display board
 			$this->io->output("\n".$game->board->asText());
+			
+			// Roll the dice
+			$game->rollDice();
 
 			// Get the active player
 			$player = $game->active_player;
 			$this->io->output($player->checker->symbol.' '.$player->name.'\'s Turn');
 			
 			// Take turn
-			$this->takeTurn($game->active_player, $game->board);
+			$this->takeTurn($game->active_player, $game->board, $game->dice);
 
 			// Check if player has won
 			if (($winner = $game->checkWinner()) !== false)
@@ -113,7 +129,7 @@ class Application
 		$this->io->output('Game over.');
 	}
 	
-	protected function takeTurn(Player $player, Board $board)
+	protected function takeTurn(Player $player, Board $board, array $dice)
 	{
 		while (true)
 		{
@@ -126,7 +142,7 @@ class Application
 					break;
 				// If player is computer
 				case $this->namespace.'Computer':
-					$moves = $this->computerGetMoves($player, $board);
+					$moves = $this->computerGetMoves($player, $board, $dice);
 					break;
 				default:
 					throw new \Exception('Unsupported player type.');
@@ -135,7 +151,7 @@ class Application
 			try
 			{
 				// Make moves
-				$board->makeMoves($moves, $player->checker, $player->clockwise);
+				$board->makeMoves($moves, $player->checker, $player->clockwise, $dice);
 			}
 			catch (\Exception $e)
 			{
@@ -191,72 +207,53 @@ class Application
 		}
 	}
 	
-	protected function computerGetMoves(Computer $player, Board $board)
+	protected function computerGetMoves(Computer $player, Board $board, array $dice)
 	{
-		// Get computer's dice role
-		//$dice = $this->getDiceRoll();
-		$dice = [5, 3];
+		// Manually overide the dice values
+		$this->manuallySetDice($dice);
 		
+		// Think about it and return move
 		return $player->think($board, $dice);
 	}
 	
 	/**
 	 * Asks user for the dice roll
+	 * (This is used when not using the virtual dice)
 	 */
-	protected function getDiceRoll()
+	protected function manuallySetDice(array $dice)
 	{
-		$this->voice->say('Roll the dice for me please.');
-		
 		sleep(2);
+		$this->voice->say($this->roll_speech[array_rand($this->roll_speech)]);
 		
 		while (true)
 		{
-			$say_dice = [
-				"What dice roll did I get?",
-				"What's my dice roll?",
-				"Is my roll any good?"
-			];
-			$this->voice->say($say_dice[array_rand($say_dice)]);
-			
 			// Get input
 			$input = $this->io->input('Dice roll:');
 			
 			// Expload moves
 			$exploded_dice = preg_split("/\s/", $input, null, PREG_SPLIT_NO_EMPTY);
 			
-			// Check that two values where inputted
-			if (count($exploded_dice) !== 2)
+			// Check correct amount of values where inputted
+			if (count($exploded_dice) !== ($num_dice = count($dice)))
 			{
-				$this->io->error('You did not specify the correct amount of dice rolls.');
+				$this->io->error('You must input '.$num_dice.' dice rolls.');
 				continue;
 			}
 			
-			$dice = [];
-			foreach ($exploded_dice as $die)
+			foreach ($exploded_dice as $key => $value)
 			{
-				(int) $die;
-				
 				// Check if dice values are valid
-				$dice_sides = [1, 2, 3, 4, 5, 6];
-				if (! in_array($die, $dice_sides, true))
+				if (! $dice[$key]->validValue((int) $value))
 				{
-					$this->io->error('You specified an incorrect dice roll.');
+					$this->io->error('"'.$value.'" is an invalid die value.');
 					continue 2;
 				}
 				
-				// Add die to array
-				$dice[] = $dice;
-			}
-
-			// Check if rolled a double
-			if($dice[0] == $dice[1])
-			{
-				// Duplicate dice
-				$dice[2] = $dice[0];
-				$dice[3] = $dice[0];
+				// Overide die value
+				$dice[$key]->value = $value;
 			}
 			
-			return $dice;
+			return true;
 		}
 	}
 }

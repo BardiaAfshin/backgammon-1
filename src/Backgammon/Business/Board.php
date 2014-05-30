@@ -78,7 +78,7 @@ class Board
 	 * @param $checker The players checker
 	 * @param bool $clockwise If the player is going clockwise around the board
 	 */
-	public function makeMoves(array $moves, Checker $checker, $clockwise)
+	public function makeMoves(array $moves, Checker $checker, $clockwise, array $dice)
 	{
 		// Check there's no more than 4 moves
 		if (count($moves) > 4)
@@ -88,6 +88,14 @@ class Board
 		
 		// Save current state of board
 		$this->saveState();
+		
+		// Check if rolled a double
+		/*if($dice[0] == $dice[1])
+		{
+			// Duplicate dice
+			$dice[2] = $dice[0];
+			$dice[3] = $dice[0];
+		}*/
 		
 		try
 		{

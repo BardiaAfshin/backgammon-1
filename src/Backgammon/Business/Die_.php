@@ -4,7 +4,7 @@ namespace Backgammon\Business;
 class Die_
 {
 	protected $values;
-	public $value;
+	public $value = null;
 	
 	/**
 	 * @param $values Array of face values
@@ -20,5 +20,16 @@ class Die_
 	public function roll()
 	{
 		$this->value = $this->values[array_rand($this->values)];
+	}
+	
+	/**
+	 * Checks if value is on dice
+	 * 
+	 * @param int $value
+	 * @return bool
+	 */
+	public function validValue($value)
+	{
+		return in_array($value, $this->values, true);
 	}
 }
